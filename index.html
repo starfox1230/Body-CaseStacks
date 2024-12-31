@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Case Progress Tracker</title>
     <style>
-        /* Reset some default styles */
         * {
             margin: 0;
             padding: 0;
@@ -13,8 +12,8 @@
         }
 
         body {
-            background-color: #191919; /* Solid background color */
-            color: #e0e0e0;
+            background: #191919;
+            color: #ffd0b3;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             display: flex;
             flex-direction: column;
@@ -23,19 +22,12 @@
             padding: 40px 20px;
         }
 
-        h1 {
-            margin-bottom: 40px;
-            font-size: 2.5rem;
-            color: #ffffff;
-            text-shadow: 0 0 10px rgba(0,0,0,0.7);
-        }
-
         .container {
             display: flex;
-            flex-direction: column; /* Arrange items vertically */
-            align-items: center;    /* Center items horizontally */
-            gap: 40px;              /* Increased gap for better spacing */
-            max-width: 600px;       /* Adjusted max-width for better mobile view */
+            flex-direction: column;
+            align-items: center;
+            gap: 40px;
+            max-width: 600px;
             width: 100%;
         }
 
@@ -43,10 +35,18 @@
             position: relative;
             width: 180px;
             height: 180px;
-            background: rgba(255, 255, 255, 0.05);
+            background: rgba(255, 89, 0, 0.1);
             border-radius: 50%;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 0 20px rgba(255, 89, 0, 0.2),
+                       inset 0 0 15px rgba(255, 89, 0, 0.2);
             transition: transform 0.3s;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { box-shadow: 0 0 20px rgba(255, 89, 0, 0.2), inset 0 0 15px rgba(255, 89, 0, 0.2); }
+            50% { box-shadow: 0 0 30px rgba(255, 89, 0, 0.4), inset 0 0 25px rgba(255, 89, 0, 0.4); }
+            100% { box-shadow: 0 0 20px rgba(255, 89, 0, 0.2), inset 0 0 15px rgba(255, 89, 0, 0.2); }
         }
 
         .progress-wrapper:hover {
@@ -60,8 +60,8 @@
             width: 100%;
             height: 100%;
             background: conic-gradient(
-                #3ae374 var(--percent),
-                #1e1e30 var(--percent)
+                #ff5900 var(--percent),
+                #331200 var(--percent)
             );
             border-radius: 50%;
             transform: rotate(-90deg);
@@ -74,14 +74,15 @@
             left: 10%;
             width: 80%;
             height: 80%;
-            background: #141424;
+            background: #191919;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            color: #e4e4e7;
+            color: #ffd0b3;
             font-size: 1.4rem;
             box-shadow: inset 0 0 10px rgba(0,0,0,0.6);
+            text-shadow: 0 0 10px rgba(255, 89, 0, 0.5);
         }
 
         .progress-button {
@@ -89,27 +90,28 @@
             bottom: -50px;
             left: 50%;
             transform: translateX(-50%);
-            background: linear-gradient(135deg, #3a2a63, #573b8a);
-            color: #e4e4e7;
+            background: linear-gradient(135deg, #ff5900, #ff8400);
+            color: #fff;
             border: none;
             padding: 12px 20px;
             border-radius: 30px;
             cursor: pointer;
             font-size: 1rem;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
-            transition: background 0.3s, transform 0.2s;
+            box-shadow: 0 4px 15px rgba(255, 89, 0, 0.3);
+            transition: all 0.3s;
         }
 
         .progress-button:hover {
-            background: linear-gradient(135deg, #4b367a, #7352a3);
+            background: linear-gradient(135deg, #ff8400, #ffa500);
             transform: translateX(-50%) scale(1.05);
+            box-shadow: 0 0 20px rgba(255, 89, 0, 0.5);
         }
 
         .minus-button {
             position: absolute;
             top: 10px;
             left: 10px;
-            background: #555;
+            background: #ff5900;
             color: #fff;
             border: none;
             border-radius: 50%;
@@ -120,35 +122,34 @@
             justify-content: center;
             cursor: pointer;
             font-size: 1rem;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.3);
-            transition: background 0.3s, transform 0.2s;
+            box-shadow: 0 2px 5px rgba(255, 89, 0, 0.3);
+            transition: all 0.3s;
         }
 
         .minus-button:hover {
-            background: #777;
+            background: #ff8400;
             transform: scale(1.1);
+            box-shadow: 0 0 15px rgba(255, 89, 0, 0.5);
         }
 
-        /* Reset Button Styles */
         .reset-button {
-            margin-top: 40px; /* Reduced top margin */
-            background: #333;  /* More discrete color */
-            color: #ccc;       /* Lighter text */
-            border: 1px solid #555; /* Subtle border */
-            padding: 10px 20px;     /* Reduced padding */
-            border-radius: 25px;    /* Slightly smaller border-radius */
+            margin-top: 40px;
+            background: linear-gradient(135deg, #802d00, #ff5900);
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 25px;
             cursor: pointer;
             font-size: 0.9rem;
-            box-shadow: none;       /* Removed shadow */
-            transition: background 0.3s, color 0.3s;
+            box-shadow: 0 4px 15px rgba(255, 89, 0, 0.2);
+            transition: all 0.3s;
         }
 
         .reset-button:hover {
-            background: #444; /* Slightly lighter on hover */
-            color: #fff;      /* Increased text contrast on hover */
+            background: linear-gradient(135deg, #ff5900, #ff8400);
+            box-shadow: 0 0 20px rgba(255, 89, 0, 0.4);
         }
 
-        /* Responsive adjustments */
         @media (max-width: 600px) {
             .progress-wrapper {
                 width: 140px;
@@ -172,15 +173,8 @@
                 top: 8px;
                 left: 8px;
             }
-
-            .reset-button {
-                padding: 12px 24px;
-                font-size: 0.9rem;
-                margin-top: 40px;
-            }
         }
 
-        /* Adjustments for larger screens */
         @media (min-width: 601px) {
             .container {
                 max-width: 800px;
@@ -194,6 +188,7 @@
     </style>
 </head>
 <body>
+    <!-- Rest of the HTML and JavaScript remains exactly the same -->
     <div class="container">
         <div class="progress-wrapper" id="trauma-progress">
             <button class="minus-button" onclick="decrementProgress('trauma', 1)">−</button>
@@ -215,12 +210,11 @@
         </div>     <br><br>
     </div>
 
-    <!-- Reset Button -->
     <button class="reset-button" onclick="resetProgress()">Reset All Progress</button>
 
     <script>
         // Backend API URL
-        const API_URL = 'https://body-casestacks.onrender.com'; // Replace with your Render backend URL
+        const API_URL = 'https://body-casestacks.onrender.com';
 
         // Initialize progress state
         let progressState = {
@@ -241,13 +235,11 @@
             for (const category in progressState) {
                 const current = progressState[category];
                 const percent = (current / totalCases[category]) * 100;
-                const degrees = percent * 3.6; // Convert percentage to degrees for conic-gradient
+                const degrees = percent * 3.6;
 
-                // Update the progress bar
                 const progressElement = document.getElementById(`${category}-progress`).querySelector('.progress');
                 progressElement.style.setProperty('--percent', `${degrees}deg`);
 
-                // Update the label
                 const labelElement = document.getElementById(`${category}-label`);
                 labelElement.innerText = `${current}/${totalCases[category]}`;
             }
@@ -282,7 +274,7 @@
         // Function to update progress on backend
         async function updateProgress(category, value) {
             if (progressState[category] >= totalCases[category] && value > 0) {
-                return; // Do not exceed total cases
+                return;
             }
             try {
                 const response = await fetch(`${API_URL}/updateProgress`, {
@@ -308,7 +300,7 @@
         // Function to decrement progress on backend
         async function decrementProgress(category, value) {
             if (progressState[category] <= 0 && value < 0) {
-                return; // Do not go below zero
+                return;
             }
             try {
                 const response = await fetch(`${API_URL}/updateProgress`, {
