@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Case Progress Tracker</title>
+    <style>
+        /* Reset some default styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: #0f0f1a;
+            background: linear-gradient(135deg, #0c0c14, #1a1a28);
+            color: #e0e0e0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+
+        h1 {
+            margin-bottom: 40px;
+            font-size: 2.5rem;
+            color: #ffffff;
+            text-shadow: 0 0 10px rgba(0,0,0,0.7);
+        }
+
+        .container {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+                flex-wrap: wrap;
+            max-width: 1200px;
+            width: 100%;
+        }
+
+        .progress-wrapper {
+            position: relative;
+            width: 180px;
+            height: 180px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 50%;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            transition: transform 0.3s;
+        }
+
+        .progress-wrapper:hover {
+            transform: scale(1.05);
+        }
+
+        .progress {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: conic-gradient(
+                #3ae374 var(--percent),
+                #1e1e30 var(--percent)
+            );
+            border-radius: 50%;
+            transform: rotate(-90deg);
+            transition: background 0.5s ease;
+        }
+
+        .inner-circle {
+            position: absolute;
+            top: 10%;
+            left: 10%;
+            width: 80%;
+            height: 80%;
+            background: #141424;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #e4e4e7;
+            font-size: 1.4rem;
+            box-shadow: inset 0 0 10px rgba(0,0,0,0.6);
+        }
+
+        .progress-button {
+            position: absolute;
+            bottom: -50px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: linear-gradient(135deg, #3a2a63, #573b8a);
+            color: #e4e4e7;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 30px;
+            cursor: pointer;
+            font-size: 1rem;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            transition: background 0.3s, transform 0.2s;
+        }
+
+        .progress-button:hover {
+            background: linear-gradient(135deg, #4b367a, #7352a3);
+            transform: translateX(-50%) scale(1.05);
+        }
+
+        .minus-button {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background: #555;
+            color: #fff;
+            border: none;
+            border-radius: 50%;
+            width: 25px;
+            height: 25px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 1rem;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+            transition: background 0.3s, transform 0.2s;
+        }
+
+        .minus-button:hover {
+            background: #777;
+            transform: scale(1.1);
+        }
+
+        /* Reset Button Styles */
+        .reset-button {
+            margin-top: 60px;
+            background: #ff4d4d;
+            color: #fff;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 30px;
+            cursor: pointer;
+            font-size: 1rem;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            transition: background 0.3s, transform 0.2s;
+        }
+
+        .reset-button:hover {
+            background: #ff1a1a;
+            transform: scale(1.05);
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 600px) {
+            .progress-wrapper {
+                width: 140px;
+                height: 140px;
+            }
+
+            .inner-circle {
+                font-size: 1.2rem;
+            }
+
+            .progress-button {
+                padding: 10px 16px;
+                font-size: 0.9rem;
+                bottom: -45px;
+            }
+
+            .minus-button {
+                width: 20px;
+                height: 20px;
+                font-size: 0.8rem;
+                top: 8px;
+                left: 8px;
+            }
+
+            .reset-button {
+                padding: 12px 24px;
+                font-size: 0.9rem;
+                margin-top: 40px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1>Body Case Stacks</h1>
+    <div class="container">
+        <div class="progress-wrapper" id="trauma-progress">
+            <button class="minus-button" onclick="decrementProgress('trauma', 1)">−</button>
+            <div class="progress" style="--percent: 0deg;"></div>
+            <div class="inner-circle" id="trauma-label">0/10</div>
+            <button class="progress-button" onclick="updateProgress('trauma', 1)">+Trauma</button>
+        </div>
+        <div class="progress-wrapper" id="upper-progress">
+            <button class="minus-button" onclick="decrementProgress('upper', 1)">−</button>
+            <div class="progress" style="--percent: 0deg;"></div>
+            <div class="inner-circle" id="upper-label">0/19</div>
+            <button class="progress-button" onclick="updateProgress('upper', 1)">+Upper</button>
+        </div>
+        <div class="progress-wrapper" id="lower-progress">
+            <button class="minus-button" onclick="decrementProgress('lower', 1)">−</button>
+            <div class="progress" style="--percent: 0deg;"></div>
+            <div class="inner-circle" id="lower-label">0/22</div>
+            <button class="progress-button" onclick="updateProgress('lower', 1)">+Lower</button>
+        </div>
+    </div>
+
+    <!-- Reset Button -->
+    <button class="reset-button" onclick="resetProgress()">Reset All Progress</button>
+
+    <script>
+        // Backend API URL
+        const API_URL = 'https://progress-tracker-backend.onrender.com'; // Replace with your Render backend URL
+
+        // Initialize progress state
+        let progressState = {
+            trauma: 0,
+            upper: 0,
+            lower: 0,
+        };
+
+        // Total cases per category
+        const totalCases = {
+            trauma: 10,
+            upper: 19,
+            lower: 22,
+        };
+
+        // Function to update the UI based on current progressState
+        function updateUI() {
+            for (const category in progressState) {
+                const current = progressState[category];
+                const percent = (current / totalCases[category]) * 100;
+                const degrees = percent * 3.6; // Convert percentage to degrees for conic-gradient
+
+                // Update the progress bar
+                const progressElement = document.getElementById(`${category}-progress`).querySelector('.progress');
+                progressElement.style.setProperty('--percent', `${degrees}deg`);
+
+                // Update the label
+                const labelElement = document.getElementById(`${category}-label`);
+                labelElement.innerText = `${current}/${totalCases[category]}`;
+            }
+        }
+
+        // Function to fetch progress from backend
+        async function fetchProgress() {
+            try {
+                const response = await fetch(`${API_URL}/getProgress`, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                });
+
+                if (!response.ok) {
+                    throw new Error('Failed to fetch progress');
+                }
+
+                const data = await response.json();
+                progressState = {
+                    trauma: data.trauma || 0,
+                    upper: data.upper || 0,
+                    lower: data.lower || 0,
+                };
+                updateUI();
+            } catch (error) {
+                console.error('Error fetching progress:', error);
+            }
+        }
+
+        // Function to update progress on backend
+        async function updateProgress(category, value) {
+            if (progressState[category] >= totalCases[category] && value > 0) {
+                return; // Do not exceed total cases
+            }
+            try {
+                const response = await fetch(`${API_URL}/updateProgress`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ category, value })
+                });
+
+                if (!response.ok) {
+                    throw new Error('Failed to update progress');
+                }
+
+                const data = await response.json();
+                progressState[category] = data[category];
+                updateUI();
+            } catch (error) {
+                console.error('Error updating progress:', error);
+            }
+        }
+
+        // Function to decrement progress on backend
+        async function decrementProgress(category, value) {
+            if (progressState[category] <= 0 && value < 0) {
+                return; // Do not go below zero
+            }
+            try {
+                const response = await fetch(`${API_URL}/updateProgress`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ category, value: -value })
+                });
+
+                if (!response.ok) {
+                    throw new Error('Failed to decrement progress');
+                }
+
+                const data = await response.json();
+                progressState[category] = data[category];
+                updateUI();
+            } catch (error) {
+                console.error('Error decrementing progress:', error);
+            }
+        }
+
+        // Function to reset progress on backend
+        async function resetProgress() {
+            const confirmReset = confirm("Are you sure you want to reset all progress?");
+            if (!confirmReset) return;
+
+            try {
+                const response = await fetch(`${API_URL}/resetProgress`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                });
+
+                if (!response.ok) {
+                    throw new Error('Failed to reset progress');
+                }
+
+                const data = await response.json();
+                progressState = {
+                    trauma: data.trauma || 0,
+                    upper: data.upper || 0,
+                    lower: data.lower || 0,
+                };
+                updateUI();
+            } catch (error) {
+                console.error('Error resetting progress:', error);
+            }
+        }
+
+        // Load progress when the page is fully loaded
+        document.addEventListener('DOMContentLoaded', fetchProgress);
+    </script>
+</body>
+</html>
