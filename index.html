@@ -13,7 +13,7 @@
         }
 
         body {
-            background-color: #0f0f1a;
+            background-color: #191919;
             background: linear-gradient(135deg, #0c0c14, #1a1a28);
             color: #e0e0e0;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -183,7 +183,6 @@
     </style>
 </head>
 <body>
-    <h1>Body Case Stacks</h1>
     <div class="container">
         <div class="progress-wrapper" id="trauma-progress">
             <button class="minus-button" onclick="decrementProgress('trauma', 1)">−</button>
@@ -191,18 +190,21 @@
             <div class="inner-circle" id="trauma-label">0/10</div>
             <button class="progress-button" onclick="updateProgress('trauma', 1)">+Trauma</button>
         </div>
+        <br><br>
         <div class="progress-wrapper" id="upper-progress">
             <button class="minus-button" onclick="decrementProgress('upper', 1)">−</button>
             <div class="progress" style="--percent: 0deg;"></div>
             <div class="inner-circle" id="upper-label">0/19</div>
             <button class="progress-button" onclick="updateProgress('upper', 1)">+Upper</button>
         </div>
+        <br><br>
         <div class="progress-wrapper" id="lower-progress">
             <button class="minus-button" onclick="decrementProgress('lower', 1)">−</button>
             <div class="progress" style="--percent: 0deg;"></div>
             <div class="inner-circle" id="lower-label">0/22</div>
             <button class="progress-button" onclick="updateProgress('lower', 1)">+Lower</button>
         </div>
+        <br><br>
     </div>
 
     <!-- Reset Button -->
